@@ -1,16 +1,12 @@
 package com.example;
 
 import Entity.Player;
+import Tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-    //Testing player movement
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
-
     //Screen settings
     final int originalTileSize = 16;
     final int scale = 3;
@@ -23,11 +19,17 @@ public class GamePanel extends JPanel implements Runnable{
     public int getTileSize() {
         return tileSize;
     }
+    public int getMaxScreenCol() {return maxScreenCol;}
+    public int getMaxScreenRow() {return maxScreenRow;}
+    public int getScreenWidth() {return screenWidth;}
+    public int getScreenHeight() {return screenHeight;}
+
 
     //Key input and loop thread
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this, keyHandler);
+    TileManager tileManager = new TileManager(this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -45,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+        tileManager.draw(g2);
         player.draw(g2);
         g2.dispose();
     }
