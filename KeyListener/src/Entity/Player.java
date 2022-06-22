@@ -2,7 +2,6 @@ package Entity;
 
 import com.example.GamePanel;
 import com.example.KeyHandler;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,6 +27,7 @@ public class Player extends Entity{
         direction = "down";
     }
     public void getPlayerImage(){
+        //loading in player sprites
         try {
             up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_up_1.png")));
             up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_up_2.png")));
@@ -43,39 +43,79 @@ public class Player extends Entity{
     }
 
     public void update(){
-        //handling key input to move player sprite
-        if(keyHandler.upPressed){
-            direction = "up";
-            y -= speed;
+        //only increase sprite counter and animate player if player is moving
+        if (keyHandler.upPressed || keyHandler.downPressed ||
+                keyHandler.rightPressed || keyHandler.leftPressed){
+
+            //handling key input to move player sprite
+            if(keyHandler.upPressed){
+                direction = "up";
+                y -= speed;
+            }
+            else if(keyHandler.downPressed){
+                direction = "down";
+                y += speed;
+            }
+            else if(keyHandler.leftPressed){
+                direction = "left";
+                x -= speed;
+            }
+            else if(keyHandler.rightPressed){
+                direction = "right";
+                x += speed;
+            }
+
+            //changing player image for every x number of frameAdjust
+            int frameAdjust = 12;
+            spriteCounter++;
+            if(spriteCounter > frameAdjust){
+                if(spriteNum == 1){
+                    spriteNum = 2;
+                } else if (spriteNum == 2){
+                    spriteNum = 1;
+                }
+                spriteCounter = 0;
+            }
         }
-        else if(keyHandler.downPressed){
-            direction = "down";
-            y += speed;
-        }
-        else if(keyHandler.leftPressed){
-            direction = "left";
-            x -= speed;
-        }
-        else if(keyHandler.rightPressed){
-            direction = "right";
-            x += speed;
-        }
+
     }
     public void draw(Graphics2D g2){
         //drawing player sprite
-        BufferedImage image = switch (direction) {
-            case "up" -> up1;
-            case "down" -> down1;
-            case "left" -> left1;
-            case "right" -> right1;
-            default -> null;
-        };
-
+        BufferedImage image = null;
+        switch (direction) {
+            case "up" -> {
+                if (spriteNum == 1) {
+                    image = up1;
+                }
+                if (spriteNum == 2) {
+                    image = up2;
+                }
+            }
+            case "down" -> {
+                if (spriteNum == 1) {
+                    image = down1;
+                }
+                if (spriteNum == 2) {
+                    image = down2;
+                }
+            }
+            case "left" -> {
+                if (spriteNum == 1) {
+                    image = left1;
+                }
+                if (spriteNum == 2) {
+                    image = left2;
+                }
+            }
+            case "right" -> {
+                if (spriteNum == 1) {
+                    image = right1;
+                }
+                if (spriteNum == 2) {
+                    image = right2;
+                }
+            }
+        }
         g2.drawImage(image, x, y, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-
-
-        //rectangle test
-        //g2.setColor(Color.white);
-        //g2.fillRect(x, y, gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 }

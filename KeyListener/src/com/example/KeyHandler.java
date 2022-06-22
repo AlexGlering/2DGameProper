@@ -10,7 +10,6 @@ public class KeyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
         //Not in use
     }
-
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -29,7 +28,6 @@ public class KeyHandler implements KeyListener {
         }
 
     }
-
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
