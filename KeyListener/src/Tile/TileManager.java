@@ -1,7 +1,6 @@
 package Tile;
 
 import com.example.GamePanel;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -90,13 +89,21 @@ public class TileManager {
 
             int tileNum = mapTileNum[worldCol][worldRow];
 
-            //fitting tile generation around player movement
+            //fitting tiles around player movement
             int worldX = worldCol * gp.getTileSize();
             int worldY = worldRow * gp.getTileSize();
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+            //procedurally generating tiles around player movement
+            if(worldX + gp.getTileSize()> gp.player.worldX - gp.player.screenX &&
+                    worldX - gp.getTileSize()< gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.getTileSize()> gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.getTileSize()< gp.player.worldY + gp.player.screenY){
+
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.getTileSize(), gp.getTileSize(), null);
+            }
+
             worldCol++;
 
             if(worldCol == gp.getMaxWorldCol()){
