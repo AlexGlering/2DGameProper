@@ -22,6 +22,8 @@ public class Player extends Entity{
         screenX = gamePanel.getScreenWidth()/2 - (gamePanel.getTileSize()/2);
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
+        collisionArea = new Rectangle(8, 16, 32, 32);
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -57,19 +59,29 @@ public class Player extends Entity{
             //handling key input to move player sprite
             if(keyHandler.upPressed){
                 direction = "up";
-                worldY -= speed;
             }
             else if(keyHandler.downPressed){
                 direction = "down";
-                worldY += speed;
             }
             else if(keyHandler.leftPressed){
                 direction = "left";
-                worldX -= speed;
             }
             else if(keyHandler.rightPressed){
                 direction = "right";
-                worldX += speed;
+            }
+
+            //checking for collision
+            collisionOn = false;
+            gamePanel.checker.checkTile(this);
+
+            //If collision is false, player can't move
+            if(!collisionOn){
+                switch (direction) {
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
+                }
             }
 
             //changing player image for every x number of frameAdjust
