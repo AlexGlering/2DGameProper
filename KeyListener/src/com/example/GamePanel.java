@@ -24,11 +24,22 @@ public class GamePanel extends JPanel implements Runnable{
     public int getScreenWidth() {return screenWidth;}
     public int getScreenHeight() {return screenHeight;}
 
+    //World settings
+    final int maxWorldCol = 50;
+    final int maxWorldRow = 50;
+    final int worldWidth = tileSize * maxWorldCol;
+    final int worldHeight = tileSize * maxWorldRow;
+
+    public int getMaxWorldCol() {return maxWorldCol;}
+    public int getMaxWorldRow() {return maxWorldRow;}
+    public int getWorldWidth() {return worldWidth;}
+    public int getWorldHeight() {return worldHeight;}
+
 
     //Key input and loop thread
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyHandler);
+    public Player player = new Player(this, keyHandler);
     TileManager tileManager = new TileManager(this);
 
     public GamePanel(){
