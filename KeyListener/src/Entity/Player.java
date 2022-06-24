@@ -14,6 +14,7 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
         this.gamePanel = gamePanel;
@@ -22,7 +23,13 @@ public class Player extends Entity{
         screenX = gamePanel.getScreenWidth()/2 - (gamePanel.getTileSize()/2);
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
-        collisionArea = new Rectangle(8, 16, 32, 32);
+        collisionArea = new Rectangle(
+                8,
+                16,
+                32,
+                32);
+        collisionAreaDefaultX = collisionArea.x;
+        collisionAreaDefaultY = collisionArea.y;
 
         setDefaultValues();
         getPlayerImage();
@@ -74,6 +81,10 @@ public class Player extends Entity{
             collisionOn = false;
             gamePanel.checker.checkTile(this);
 
+            //check item collision
+            int itemIndex = gamePanel.checker.checkItem(this, true);
+            pickUpItem(itemIndex);
+
             //If collision is false, player can't move
             if(!collisionOn){
                 switch (direction) {
@@ -98,6 +109,27 @@ public class Player extends Entity{
         }
 
     }
+    public void pickUpItem(int index){
+        if(index != 999) {
+            String itemName = gamePanel.items[index].name;
+
+            switch (itemName) {
+                case "Key":
+                    hasKey++;
+                    gamePanel.items[index] = null;
+                    System.out.println("Key: " + hasKey);
+                    break;
+                case "Door":
+                    if(hasKey > 0) {
+                        gamePanel.items[index] = null;
+                        hasKey--;
+                        System.out.println("Key: " + hasKey);
+                    }
+                    break;
+            }
+        }
+    }
+
     public void draw(Graphics2D g2){
         //drawing player sprite
         BufferedImage image = null;

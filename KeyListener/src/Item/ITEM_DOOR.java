@@ -13,5 +13,6 @@ public class ITEM_DOOR extends ParentItem{
         } catch(IOException e){
             e.printStackTrace();
         }
+        collision = true;
     }
 }
