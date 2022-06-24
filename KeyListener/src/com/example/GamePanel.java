@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
+
     //Screen settings
     final int originalTileSize = 16;
     final int scale = 3;
@@ -17,34 +18,29 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
-    public int getTileSize() {
-        return tileSize;
-    }
-    public int getMaxScreenCol() {return maxScreenCol;}
-    public int getMaxScreenRow() {return maxScreenRow;}
+    public int getTileSize() {return tileSize;}
     public int getScreenWidth() {return screenWidth;}
     public int getScreenHeight() {return screenHeight;}
 
     //World settings
     final int maxWorldCol = 50;
     final int maxWorldRow = 50;
-    final int worldWidth = tileSize * maxWorldCol;
-    final int worldHeight = tileSize * maxWorldRow;
 
     public int getMaxWorldCol() {return maxWorldCol;}
     public int getMaxWorldRow() {return maxWorldRow;}
-    public int getWorldWidth() {return worldWidth;}
-    public int getWorldHeight() {return worldHeight;}
 
-    KeyHandler keyHandler = new KeyHandler();
-    Thread gameThread;
-    public Player player = new Player(this, keyHandler);
+
+   //System settings
     TileManager tileManager = new TileManager(this);
+    KeyHandler keyHandler = new KeyHandler();
+    Sound sound = new Sound();
     public CollisionChecker checker = new CollisionChecker(this);
-    //setting up amount of items able to be displayed to the screen at one time
-    public ParentItem items[] = new ParentItem[10];
+    public ParentItem[] items = new ParentItem[10];
     public AssetSetter assetSetter = new AssetSetter(this);
+    public Player player = new Player(this, keyHandler);
+    Thread gameThread;
 
+    //Constructor
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
@@ -55,12 +51,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void gameSetup(){
         assetSetter.setItem();
+        playMusic(0);
     }
 
     public void update(){
         player.update();
     }
 
+    //Drawing objects to the screen
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -82,13 +80,28 @@ public class GamePanel extends JPanel implements Runnable{
         g2.dispose();
     }
 
+    //Sounds & Music
+    public void playMusic(int index){
+        sound.setFile(index);
+        sound.play();
+        sound.loop();
+    }
+    public void stopMusic(){
+        sound.stop();
+    }
+    public void playSFX(int index){
+        sound.setFile(index);
+        sound.play();
+    }
+
+
+    //Game loop
     @Override
     public void run() {
         int FPS = 60;
         double drawInterval = 1000000000/FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
-        //setting up game loop
         while(gameThread != null) {
             update();
             repaint();
@@ -108,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
+    //Staring game loop thread
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();

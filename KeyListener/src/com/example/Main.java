@@ -12,7 +12,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Blue Boy Adventures");
 
-        //Setting up gamePanel, starting gameThread and displaying it all to the screen
+        //Setting up gamePanel and gameSetup, starting gameThread and displaying it all to the screen
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
         window.setVisible(true);

@@ -126,6 +126,11 @@ public class Player extends Entity{
                         System.out.println("Key: " + hasKey);
                     }
                     break;
+                case "Boots":
+                    speed +=2;
+                    gamePanel.items[index] = null;
+                    System.out.println("Boots obtained");
+                    break;
             }
         }
     }

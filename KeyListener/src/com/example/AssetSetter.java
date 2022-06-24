@@ -1,5 +1,6 @@
 package com.example;
 
+import Item.ITEM_BOOTS;
 import Item.ITEM_CHEST;
 import Item.ITEM_DOOR;
 import Item.ITEM_KEY;
@@ -41,6 +42,11 @@ public class AssetSetter {
         gamePanel.items[6] = new ITEM_CHEST();
         gamePanel.items[6].worldX= 10 * gamePanel.getTileSize();
         gamePanel.items[6].worldY= 7 * gamePanel.getTileSize();
+
+        gamePanel.items[7] = new ITEM_BOOTS();
+        gamePanel.items[7].worldX= 37 * gamePanel.getTileSize();
+        gamePanel.items[7].worldY= 42 * gamePanel.getTileSize();
+
 
     }
 }
