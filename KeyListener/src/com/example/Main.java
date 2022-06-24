@@ -15,8 +15,9 @@ public class Main {
         //Setting up gamePanel and gameSetup, starting gameThread and displaying it all to the screen
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
-        window.setVisible(true);
         window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
         gamePanel.gameSetup();
         gamePanel.startGameThread();
     }
