@@ -125,6 +125,8 @@ public class Player extends Entity{
                         gamePanel.playSFX(3);
                         gamePanel.items[index] = null;
                         hasKey--;
+                    } else {
+                        gamePanel.ui.showMessage("Key needed!");
                     }
                     break;
                 case "Boots":
@@ -132,6 +134,12 @@ public class Player extends Entity{
                     speed +=2;
                     gamePanel.items[index] = null;
                     gamePanel.ui.showMessage("Boosted!");
+                    break;
+                case "Chest":
+                    gamePanel.items[index] = null;
+                    gamePanel.stopMusic();
+                    gamePanel.playSFX(4);
+                    gamePanel.ui.gameFinished = true;
                     break;
             }
         }
