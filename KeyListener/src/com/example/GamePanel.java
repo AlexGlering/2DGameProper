@@ -1,6 +1,7 @@
 package com.example;
 
 import Entity.Player;
+import Item.ParentItem;
 import Tile.TileManager;
 
 import javax.swing.*;
@@ -35,14 +36,14 @@ public class GamePanel extends JPanel implements Runnable{
     public int getWorldWidth() {return worldWidth;}
     public int getWorldHeight() {return worldHeight;}
 
-
-    //Key input and loop thread
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     public Player player = new Player(this, keyHandler);
     TileManager tileManager = new TileManager(this);
-
     public CollisionChecker checker = new CollisionChecker(this);
+    //setting up amount of items able to be displayed to the screen at one time
+    public ParentItem items[] = new ParentItem[10];
+    public AssetSetter assetSetter = new AssetSetter(this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -50,6 +51,10 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    public void gameSetup(){
+        assetSetter.setItem();
     }
 
     public void update(){
@@ -60,8 +65,20 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        //Tiles
         tileManager.draw(g2);
+
+        //Item
+        for (ParentItem item : items) {
+            if (item != null) {
+                item.draw(g2, this);
+            }
+        }
+
+        //Player
         player.draw(g2);
+
         g2.dispose();
     }
 
