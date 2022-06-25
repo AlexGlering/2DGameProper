@@ -1,6 +1,7 @@
 package Item;
 
 import com.example.GamePanel;
+import com.example.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class ParentItem {
     public Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     public int collisionAreaDefaultX = 0;
     public int collisionAreaDefaultY = 0;
+    UtilityTool utilityTool = new UtilityTool();
 
     public void draw(Graphics2D g2, GamePanel gp){
         int screenX = worldX - gp.player.worldX + gp.player.screenX;

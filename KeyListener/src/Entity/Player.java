@@ -2,6 +2,8 @@ package Entity;
 
 import com.example.GamePanel;
 import com.example.KeyHandler;
+import com.example.UtilityTool;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -43,19 +45,30 @@ public class Player extends Entity{
         direction = "down";
     }
     public void getPlayerImage(){
-        //loading in player sprites
-        try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_up_2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_down_2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_left_2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Player/Walking sprites/boy_right_2.png")));
+        up1 = setup("boy_up_1");
+        up2 = setup("boy_up_2");
+        down1 = setup("boy_down_1");
+        down2 = setup("boy_down_2");
+        left1 = setup("boy_left_1");
+        left2 = setup("boy_left_2");
+        right1 = setup("boy_right_1");
+        right2 = setup("boy_right_2");
+    }
+
+    //loading and scaling player image
+    public BufferedImage setup(String imageName){
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage image = null;
+        try{
+
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(
+                    "/Player/Walking sprites/"+ imageName + ".png")));
+            image = utilityTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
+
         } catch (IOException e){
             e.printStackTrace();
         }
+        return image;
     }
 
     public void update(){
@@ -182,6 +195,6 @@ public class Player extends Entity{
                 }
             }
         }
-        g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 }

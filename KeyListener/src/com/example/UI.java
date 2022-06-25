@@ -19,7 +19,7 @@ public class UI {
         this.gamePanel = gamePanel;
         arial_40 = new Font("Arial", Font.PLAIN, 40);
         arial_60B = new Font("Arial", Font.BOLD, 60);
-        ITEM_KEY key = new ITEM_KEY();
+        ITEM_KEY key = new ITEM_KEY(gamePanel);
         keyImage = key.image;
     }
 
