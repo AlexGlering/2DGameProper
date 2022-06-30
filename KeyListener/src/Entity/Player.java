@@ -16,7 +16,7 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
-    public int hasKey = 0;
+    //public int hasKey = 0;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
         this.gamePanel = gamePanel;
@@ -124,37 +124,7 @@ public class Player extends Entity{
     }
     public void pickUpItem(int index){
         if(index != 999) {
-            String itemName = gamePanel.items[index].name;
 
-            switch (itemName) {
-                case "Key":
-                    gamePanel.playSFX(1);
-                    hasKey++;
-                    gamePanel.items[index] = null;
-                    gamePanel.ui.showMessage("Key acquired!");
-                    break;
-                case "Door":
-                    if(hasKey > 0) {
-                        gamePanel.playSFX(3);
-                        gamePanel.items[index] = null;
-                        hasKey--;
-                    } else {
-                        gamePanel.ui.showMessage("Key needed!");
-                    }
-                    break;
-                case "Boots":
-                    gamePanel.playSFX(2);
-                    speed +=2;
-                    gamePanel.items[index] = null;
-                    gamePanel.ui.showMessage("Boosted!");
-                    break;
-                case "Chest":
-                    gamePanel.items[index] = null;
-                    gamePanel.stopMusic();
-                    gamePanel.playSFX(4);
-                    gamePanel.ui.gameFinished = true;
-                    break;
-            }
         }
     }
 
