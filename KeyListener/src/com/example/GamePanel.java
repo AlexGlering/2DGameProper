@@ -1,5 +1,6 @@
 package com.example;
 
+import Entity.Entity;
 import Entity.Player;
 import Item.ParentItem;
 import Tile.TileManager;
@@ -36,11 +37,14 @@ public class GamePanel extends JPanel implements Runnable{
     Sound music = new Sound();
     Sound sfx = new Sound();
     public CollisionChecker checker = new CollisionChecker(this);
-    public ParentItem[] items = new ParentItem[10];
     public AssetSetter assetSetter = new AssetSetter(this);
-    public Player player = new Player(this, keyHandler);
     public UI ui = new UI(this);
     Thread gameThread;
+
+    //Player, NPC & Items
+    public ParentItem[] items = new ParentItem[10];
+    public Player player = new Player(this, keyHandler);
+    public Entity[] npc = new Entity[10];
 
     //Game state
     public int gameState;
@@ -58,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void gameSetup(){
         assetSetter.setItem();
+        assetSetter.setNPC();
         playMusic(0);
         gameState = playState;
     }
@@ -91,6 +96,12 @@ public class GamePanel extends JPanel implements Runnable{
         for (ParentItem item : items) {
             if (item != null) {
                 item.draw(g2, this);
+            }
+        }
+
+        for (int i = 0; i < npc.length; i++) {
+            if(npc[i] != null){
+                npc[i].draw(g2);
             }
         }
 
