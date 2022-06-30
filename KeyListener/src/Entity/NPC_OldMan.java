@@ -1,12 +1,7 @@
 package Entity;
 
 import com.example.GamePanel;
-import com.example.UtilityTool;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
+import java.util.Random;
 
 public class NPC_OldMan extends Entity{
     public NPC_OldMan(GamePanel gamePanel){
@@ -28,5 +23,31 @@ public class NPC_OldMan extends Entity{
         right2 = setup("/NPC/oldman_right_2");
     }
 
+    //setting npc behavior
+    @Override
+    public void setAction(){
+        actionLockCounter++;
+
+        if(actionLockCounter == 120){
+            Random random = new Random();
+            int i = random.nextInt(100)+1;
+
+            if(i <= 25){
+                direction = "up";
+            }
+            if(i > 25 && i <= 50){
+                direction = "down";
+            }
+            if(i > 50 && i <= 75){
+                direction = "left";
+            }
+            if(i > 75 && i <= 100){
+                direction = "right";
+            }
+
+            actionLockCounter = 0;
+        }
+
+    }
 
 }

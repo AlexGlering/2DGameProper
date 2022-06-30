@@ -75,6 +75,10 @@ public class Player extends Entity{
             int itemIndex = gamePanel.checker.checkItem(this, true);
             pickUpItem(itemIndex);
 
+            //check npc collision
+            int npcIndex = gamePanel.checker.checkEntity(this, gamePanel.npc);
+            interactNPC(npcIndex);
+
             //If collision is false, player can't move
             if(!collisionOn){
                 switch (direction) {
@@ -100,9 +104,11 @@ public class Player extends Entity{
 
     }
     public void pickUpItem(int index){
-        if(index != 999) {
+        if(index != 999) {}
+    }
 
-        }
+    public void interactNPC(int index){
+        if(index != 999){}
     }
 
     public void draw(Graphics2D g2){

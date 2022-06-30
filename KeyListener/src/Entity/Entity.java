@@ -22,9 +22,39 @@ public class Entity {
     public int collisionAreaDefaultY;
     public boolean collisionOn = false;
     public GamePanel gamePanel;
+    public int actionLockCounter = 0;
 
     public Entity (GamePanel gamePanel){
         this.gamePanel = gamePanel;
+    }
+
+    public void setAction(){}
+
+    public void update(){
+        setAction();
+        collisionOn = false;
+        gamePanel.checker.checkTile(this);
+        gamePanel.checker.checkItem(this, false);
+        gamePanel.checker.checkPlayer(this);
+
+        if(!collisionOn){
+            switch (direction) {
+                case "up" -> worldY -= speed;
+                case "down" -> worldY += speed;
+                case "left" -> worldX -= speed;
+                case "right" -> worldX += speed;
+            }
+        }
+        int frameAdjust = 12;
+        spriteCounter++;
+        if(spriteCounter > frameAdjust){
+            if(spriteNum == 1){
+                spriteNum = 2;
+            } else if (spriteNum == 2){
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
+        }
     }
 
     public void draw(Graphics2D g2){
