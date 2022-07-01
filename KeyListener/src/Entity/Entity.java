@@ -23,12 +23,26 @@ public class Entity {
     public boolean collisionOn = false;
     public GamePanel gamePanel;
     public int actionLockCounter = 0;
+    public String[] dialogues = new String[20];
+    public int dialogueIndex = 0;
 
     public Entity (GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
 
     public void setAction(){}
+
+    public void speak(){
+        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
+        dialogueIndex++;
+
+        switch (gamePanel.player.direction) {
+            case "up" -> direction = "down";
+            case "down" -> direction = "up";
+            case "left" -> direction = "right";
+            case "right" -> direction = "left";
+        }
+    }
 
     public void update(){
         setAction();

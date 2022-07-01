@@ -10,6 +10,24 @@ public class NPC_OldMan extends Entity{
         direction = "down";
         speed = 1;
         getImage();
+        setDialogue();
+    }
+
+    public void setDialogue(){
+        dialogues[0] = "Hello, lad.";
+        dialogues[1] = "So, you've come to this island to find the treasure?";
+        dialogues[2] = "I too used to scour these lands for that sweet loot,/n" +
+                "but now I'm too old and frail for such journeys.";
+        dialogues[3] = "Anyhow, may your travels be fruitful/n" +
+                "and full of bountiful booty,";
+    }
+
+    @Override
+    public void speak(){
+        if(dialogues[dialogueIndex] == null){
+            dialogueIndex = 3;
+        }
+        super.speak();
     }
 
     public void getImage(){
