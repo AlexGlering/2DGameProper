@@ -40,6 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter assetSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     Thread gameThread;
+    public EventHandler eventHandler = new EventHandler(this);
 
     //Player, NPC & Items
     public ParentItem[] items = new ParentItem[10];

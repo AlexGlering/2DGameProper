@@ -19,7 +19,7 @@ public class NPC_OldMan extends Entity{
         dialogues[2] = "I too used to scour these lands for that sweet loot,/n" +
                 "but now I'm too old and frail for such journeys.";
         dialogues[3] = "Anyhow, may your travels be fruitful/n" +
-                "and full of bountiful booty,";
+                "and full of bountiful booty.";
     }
 
     @Override
