@@ -28,7 +28,13 @@ public class UI {
         this.g2 = g2;
 
         g2.setFont(arial_40);
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
+
+        //Title State
+        if(gamePanel.gameState == gamePanel.titleState){
+            drawTitleScreen();
+        }
 
         //Play state
         if(gamePanel.gameState == gamePanel.playState){
@@ -42,6 +48,50 @@ public class UI {
         if(gamePanel.gameState == gamePanel.dialogueState){
             drawDialogueScreen();
         }
+    }
+
+    public void drawTitleScreen(){
+        //Title screen color
+        g2.setColor(new Color(30, 144, 255));
+        g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+        //Title name
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 70F));
+        String text = "Blue Boy Adventure";
+        int x = getXForCenteredText(text);
+        int y = gamePanel.getTileSize()*3;
+
+        //Text shadow
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, x+3, y+3);
+
+        //Main text color
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x, y);
+
+        //Blue boy image
+        x = gamePanel.getScreenWidth()/2 - ((gamePanel.getTileSize()*2)/2);
+        y += gamePanel.getTileSize()*2;
+        g2.drawImage(gamePanel.player.down1, x, y, gamePanel.getTileSize()*2, gamePanel.getTileSize()*2, null);
+
+        //Menu
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 35F));
+
+        text = "NEW GAME";
+        x = getXForCenteredText(text);
+        y += gamePanel.getTileSize()*3.5;
+        g2.drawString(text, x, y);
+
+        text = "LOAD GAME";
+        x = getXForCenteredText(text);
+        y += gamePanel.getTileSize();
+        g2.drawString(text, x, y);
+
+        text = "QUIT";
+        x = getXForCenteredText(text);
+        y += gamePanel.getTileSize();
+        g2.drawString(text, x, y);
+
     }
 
     public void drawPauseScreen(){
