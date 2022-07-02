@@ -12,6 +12,8 @@ public class UI {
     int messageCounter = 0;
     public boolean gameFinished = false;
     public String currentDialogue;
+    public int commandNum = 0;
+    public int titleScreenState = 0; //0: first screen, 1: second screen
 
     public UI(GamePanel gamePanel){
         this.gamePanel = gamePanel;
@@ -51,48 +53,104 @@ public class UI {
     }
 
     public void drawTitleScreen(){
-        //Title screen color
-        g2.setColor(new Color(30, 144, 255));
-        g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+        if(titleScreenState == 0){
+            //Title screen color
+            g2.setColor(new Color(30, 144, 255));
+            g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
 
-        //Title name
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 70F));
-        String text = "Blue Boy Adventure";
-        int x = getXForCenteredText(text);
-        int y = gamePanel.getTileSize()*3;
+            //Title name
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 70F));
+            String text = "Blue Boy Adventure";
+            int x = getXForCenteredText(text);
+            int y = gamePanel.getTileSize()*3;
 
-        //Text shadow
-        g2.setColor(Color.BLACK);
-        g2.drawString(text, x+3, y+3);
+            //Text shadow
+            g2.setColor(Color.BLACK);
+            g2.drawString(text, x+3, y+3);
 
-        //Main text color
-        g2.setColor(Color.WHITE);
-        g2.drawString(text, x, y);
+            //Main text color
+            g2.setColor(Color.WHITE);
+            g2.drawString(text, x, y);
 
-        //Blue boy image
-        x = gamePanel.getScreenWidth()/2 - ((gamePanel.getTileSize()*2)/2);
-        y += gamePanel.getTileSize()*2;
-        g2.drawImage(gamePanel.player.down1, x, y, gamePanel.getTileSize()*2, gamePanel.getTileSize()*2, null);
+            //Blue boy image
+            x = gamePanel.getScreenWidth()/2 - ((gamePanel.getTileSize()*2)/2);
+            y += gamePanel.getTileSize()*2;
+            g2.drawImage(gamePanel.player.down1, x, y, gamePanel.getTileSize()*2, gamePanel.getTileSize()*2, null);
 
-        //Menu
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 35F));
+            //Menu
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 35F));
 
-        text = "NEW GAME";
-        x = getXForCenteredText(text);
-        y += gamePanel.getTileSize()*3.5;
-        g2.drawString(text, x, y);
+            text = "NEW GAME";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize()*3.5;
+            g2.drawString(text, x, y);
+            if(commandNum == 0){
+                g2.drawString(">", x-gamePanel.getTileSize(), y);}
 
-        text = "LOAD GAME";
-        x = getXForCenteredText(text);
-        y += gamePanel.getTileSize();
-        g2.drawString(text, x, y);
 
-        text = "QUIT";
-        x = getXForCenteredText(text);
-        y += gamePanel.getTileSize();
-        g2.drawString(text, x, y);
+            text = "LOAD GAME";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize();
+            g2.drawString(text, x, y);
+            if(commandNum == 1){
+                g2.drawString(">", x-gamePanel.getTileSize(), y);}
 
+
+            text = "QUIT";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize();
+            g2.drawString(text, x, y);
+            if(commandNum == 2){
+                g2.drawString(">", x-gamePanel.getTileSize(), y);}
+        }
+        else if (titleScreenState == 1){
+
+            //Character class selection screen
+            g2.setColor(new Color(30, 144, 255));
+            g2.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(25F));
+
+                String text = "SELECT YOUR STARTING CLASS";
+            int x = getXForCenteredText(text);
+            int y = gamePanel.getTileSize()*3;
+            g2.drawString(text, x, y);
+
+            text = "FIGHTER";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize()*2;
+            g2.drawString(text, x, y);
+            if(commandNum == 0) {
+                g2.drawString(">", x- gamePanel.getTileSize(), y);
+            }
+
+            text = "ROUGE";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize();
+            g2.drawString(text, x, y);
+            if(commandNum == 1) {
+                g2.drawString(">", x- gamePanel.getTileSize(), y);
+            }
+
+            text = "SORCERER";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize();
+            g2.drawString(text, x, y);
+            if(commandNum == 2) {
+                g2.drawString(">", x- gamePanel.getTileSize(), y);
+            }
+
+            text = "BACK";
+            x = getXForCenteredText(text);
+            y += gamePanel.getTileSize()*2;
+            g2.drawString(text, x, y);
+            if(commandNum == 3) {
+                g2.drawString(">", x- gamePanel.getTileSize(), y);
+            }
+        }
     }
+
 
     public void drawPauseScreen(){
         String text = "PAUSED";
@@ -138,7 +196,6 @@ public class UI {
 
     public int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        int x = gamePanel.screenWidth/2 - length/2;
-        return x;
+        return gamePanel.screenWidth/2 - length/2;
     }
 }

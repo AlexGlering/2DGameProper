@@ -23,6 +23,72 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
+        //Title state
+        if(gamePanel.gameState == gamePanel.titleState) {
+            if(gamePanel.ui.titleScreenState == 0){
+                if (key == KeyEvent.VK_W) {
+                    gamePanel.ui.commandNum--;
+                    if(gamePanel.ui.commandNum<0){
+                        gamePanel.ui.commandNum = 2;
+                    }
+                }
+                if (key == KeyEvent.VK_S) {
+                    gamePanel.ui.commandNum++;
+                    if(gamePanel.ui.commandNum>2){
+                        gamePanel.ui.commandNum = 0;
+                    }
+                }
+                if (key == KeyEvent.VK_ENTER) {
+                    switch (gamePanel.ui.commandNum){
+                        case 0:
+                            gamePanel.ui.titleScreenState = 1;
+                            break;
+                        case 1:
+                            //add later
+                            break;
+                        case 2:
+                            System.exit(0);
+                            break;
+                    }
+                }
+            }
+            else if(gamePanel.ui.titleScreenState == 1){
+                if (key == KeyEvent.VK_W) {
+                    gamePanel.ui.commandNum--;
+                    if(gamePanel.ui.commandNum<0){
+                        gamePanel.ui.commandNum = 3;
+                    }
+                }
+                if (key == KeyEvent.VK_S) {
+                    gamePanel.ui.commandNum++;
+                    if(gamePanel.ui.commandNum>3){
+                        gamePanel.ui.commandNum = 0;
+                    }
+                }
+                if (key == KeyEvent.VK_ENTER) {
+                    switch (gamePanel.ui.commandNum) {
+                        case 0 -> {
+                            System.out.println("Do some fighter specific stuff");
+                            gamePanel.gameState = gamePanel.playState;
+                            gamePanel.playMusic(0);
+                        }
+                        case 1 -> {
+                            System.out.println("Do some rogue specific stuff");
+                            gamePanel.gameState = gamePanel.playState;
+                            gamePanel.playMusic(0);
+                        }
+                        case 2 -> {
+                            System.out.println("Do some sorcerer specific stuff");
+                            gamePanel.gameState = gamePanel.playState;
+                            gamePanel.playMusic(0);
+                        }
+                        case 3 -> gamePanel.ui.titleScreenState = 0;
+                    }
+                }
+            }
+
+
+        }
 
         //Play state
         if (gamePanel.gameState == gamePanel.playState) {
