@@ -1,7 +1,7 @@
 package com.example;
 
+import Entity.Entity;
 import Item.ITEM_HEART;
-import Item.ParentItem;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ public class UI {
         arial_60B = new Font("Arial", Font.BOLD, 60);
 
         //Create HUD object
-        ParentItem heart = new ITEM_HEART(gamePanel);
+        Entity heart = new ITEM_HEART(gamePanel);
         heart_full = heart.image;
         heart_half = heart.image2;
         heart_blank = heart.image3;

@@ -80,7 +80,7 @@ public class Player extends Entity{
             pickUpItem(itemIndex);
 
             //check npc collision
-            int npcIndex = gamePanel.checker.checkEntity(this, gamePanel.npc);
+            int npcIndex = gamePanel.checker.checkEntity(this, gamePanel.npcs);
             interactNPC(npcIndex);
 
             //Check event
@@ -119,7 +119,7 @@ public class Player extends Entity{
         if(index != 999){
             if(gamePanel.keyHandler.enterPressed){
                 gamePanel.gameState = gamePanel.dialogueState;
-                gamePanel.npc[index].speak();
+                gamePanel.npcs[index].speak();
             }
         }
     }

@@ -1,23 +1,21 @@
 package Item;
 
+import Entity.Entity;
 import com.example.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
-
-public class ITEM_DOOR extends ParentItem{
-    GamePanel gamePanel;
+public class ITEM_DOOR extends Entity {
 
     public ITEM_DOOR(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+        super(gamePanel);
         name = "Door";
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Object/door.png")));
-            utilityTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+        down1 = setup("/Object/door");
         collision = true;
+
+        collisionArea.x = 0;
+        collisionArea.y = 16;
+        collisionArea.width = 48;
+        collisionArea.height = 32;
+        collisionAreaDefaultX = collisionArea.x;
+        collisionAreaDefaultY = collisionArea.y;
     }
 }

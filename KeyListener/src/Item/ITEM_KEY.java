@@ -1,23 +1,14 @@
 package Item;
 
+import Entity.Entity;
 import com.example.GamePanel;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.util.Objects;
+public class ITEM_KEY extends Entity {
 
-public class ITEM_KEY extends ParentItem{
-
-    GamePanel gamePanel;
-
-    public ITEM_KEY(GamePanel gamePanel){
-        this.gamePanel = gamePanel;
+    public ITEM_KEY(GamePanel gamePanel) {
+        super(gamePanel);
         name = "Key";
-        try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/Object/key.png")));
-            utilityTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+        down1 = setup("/Object/key");
     }
+
 }

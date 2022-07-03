@@ -2,11 +2,13 @@ package com.example;
 
 import Entity.Entity;
 import Entity.Player;
-import Item.ParentItem;
 import Tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -43,9 +45,10 @@ public class GamePanel extends JPanel implements Runnable{
     public EventHandler eventHandler = new EventHandler(this);
 
     //Player, NPC & Items
-    public ParentItem[] items = new ParentItem[10];
+    public Entity[] items = new Entity[10];
     public Player player = new Player(this, keyHandler);
-    public Entity[] npc = new Entity[10];
+    public Entity[] npcs = new Entity[10];
+    ArrayList<Entity> entities = new ArrayList<>();
 
     //Game state
     public int gameState;
@@ -75,9 +78,9 @@ public class GamePanel extends JPanel implements Runnable{
             //player
             player.update();
             //npc
-            for (int i = 0; i < npc.length; i++) {
-                if(npc[i] != null){
-                    npc[i].update();
+            for (int i = 0; i < npcs.length; i++) {
+                if(npcs[i] != null){
+                    npcs[i].update();
                 }
             }
         }
@@ -108,22 +111,37 @@ public class GamePanel extends JPanel implements Runnable{
             //Tiles
             tileManager.draw(g2);
 
-            //Item
-            for (ParentItem item : items) {
-                if (item != null) {
-                    item.draw(g2, this);
-                }
-            }
+            //Player
+            entities.add(player);
 
             //NPC
-            for (int i = 0; i < npc.length; i++) {
-                if(npc[i] != null){
-                    npc[i].draw(g2);
+            for (Entity npc : npcs) {
+                if (npc != null) {
+                    entities.add(npc);
                 }
             }
 
-            //Player
-            player.draw(g2);
+            //Items
+            for (Entity item : items) {
+                if (item != null) {
+                    entities.add(item);
+                }
+            }
+
+            //Sort
+            Collections.sort(entities, (o1, o2) -> {
+                int result = Integer.compare(o1.worldY, o2.worldY);
+                return result;});
+            
+            //Draw entities
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).draw(g2);
+            }
+
+            //Reset entities
+            for (int i = 0; i < entities.size(); i++) {
+                entities.remove(i);
+            }
 
             //UI
             ui.draw(g2);

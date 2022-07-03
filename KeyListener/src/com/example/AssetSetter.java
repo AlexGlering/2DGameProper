@@ -1,10 +1,7 @@
 package com.example;
 
 import Entity.NPC_OldMan;
-import Item.ITEM_BOOTS;
-import Item.ITEM_CHEST;
 import Item.ITEM_DOOR;
-import Item.ITEM_KEY;
 
 public class AssetSetter {
     GamePanel gamePanel;
@@ -14,11 +11,14 @@ public class AssetSetter {
     }
 
     public void setItem() {
+        gamePanel.items[0] = new ITEM_DOOR(gamePanel);
+        gamePanel.items[0].worldX = gamePanel.getTileSize()*23;
+        gamePanel.items[0].worldY = gamePanel.getTileSize()*25;
     }
 
     public void setNPC() {
-        gamePanel.npc[0] = new NPC_OldMan(gamePanel);
-        gamePanel.npc[0].worldX = gamePanel.getTileSize() * 21;
-        gamePanel.npc[0].worldY = gamePanel.getTileSize() * 21;
+        gamePanel.npcs[0] = new NPC_OldMan(gamePanel);
+        gamePanel.npcs[0].worldX = gamePanel.getTileSize() * 21;
+        gamePanel.npcs[0].worldY = gamePanel.getTileSize() * 21;
     }
 }
