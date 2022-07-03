@@ -60,6 +60,8 @@ public class Entity {
         gamePanel.checker.checkTile(this);
         gamePanel.checker.checkItem(this, false);
         gamePanel.checker.checkPlayer(this);
+        gamePanel.checker.checkEntity(this, gamePanel.npcs);
+        gamePanel.checker.checkEntity(this, gamePanel.monsters);
 
         if(!collisionOn){
             switch (direction) {
