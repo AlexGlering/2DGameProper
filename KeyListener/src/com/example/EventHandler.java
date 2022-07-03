@@ -1,16 +1,17 @@
 package com.example;
 
-import java.awt.*;
-
 public class EventHandler {
 
     GamePanel gamePanel;
     EventRect[][] eventRect;
 
+    int previousEventX, previousEventY;
+    boolean canTouchEvent = true;
+
     public EventHandler(GamePanel gamePanel){
         this.gamePanel = gamePanel;
 
-        //Setting small event trigger in the middle of tile meant for triggering
+        //Setting small event trigger in the middle of tiles, Making it possible to trigger events where necessary.
         eventRect = new EventRect[gamePanel.getMaxWorldCol()][gamePanel.getMaxWorldRow()];
 
         int col = 0;
@@ -30,16 +31,21 @@ public class EventHandler {
                 row++;
             }
         }
-
-
     }
 
     public void checkEvent(){
+        //Check if player is more than one tile away from last event.
+        int xDistance = Math.abs(gamePanel.player.worldX - previousEventX);
+        int yDistance = Math.abs(gamePanel.player.worldY - previousEventY);
+        int distance = Math.max(xDistance, yDistance);
+        if(distance > gamePanel.getTileSize()){
+            canTouchEvent = true;
+        }
 
-        if(hit(27, 16, "right")){damagePit(gamePanel.dialogueState);}
-        if(hit(27, 16, "right")){teleport(gamePanel.dialogueState);}
-        if(hit(23, 12, "up")){healingPool(gamePanel.dialogueState);}
-
+        if(canTouchEvent){
+            if(hit(27, 16, "right")){squirrelAttack(27, 16, gamePanel.dialogueState);}
+            if(hit(23, 12, "up")){healingPool(23, 12, gamePanel.dialogueState);}
+        }
     }
 
     public boolean hit(int col, int row, String reqDirection){
@@ -53,11 +59,15 @@ public class EventHandler {
         eventRect[col][row].x = col* gamePanel.getTileSize() + eventRect[col][row].x;
         eventRect[col][row].y = row* gamePanel.getTileSize() + eventRect[col][row].y;
 
-        //checking for collision
-        if(gamePanel.player.collisionArea.intersects(eventRect[col][row])){
+        //checking for collision, event only happens if eventDone returns false
+        if(gamePanel.player.collisionArea.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone){
             if(gamePanel.player.direction.contentEquals(reqDirection) ||
             reqDirection.contentEquals("any")){
                 hit = true;
+
+                //record player position after hit
+                previousEventX = gamePanel.player.worldX;
+                previousEventY = gamePanel.player.worldY;
             }
         }
 
@@ -70,13 +80,15 @@ public class EventHandler {
         return hit;
     }
 
-    public void damagePit(int gameState){
+    public void squirrelAttack(int col, int row, int gameState){
         gamePanel.gameState = gameState;
-        gamePanel.ui.currentDialogue = "You fell into a pit.";
+        gamePanel.ui.currentDialogue = "You got bitten by an angry squirrel./nHe ran away before you could get your revenge.";
         gamePanel.player.life -= 1;
+        //eventRect[col][row].eventDone = true;
+        canTouchEvent = false;
     }
 
-    public void healingPool(int gameState){
+    public void healingPool(int col, int row,int gameState){
 
         if(gamePanel.keyHandler.enterPressed){
             gamePanel.gameState = gameState;
@@ -85,10 +97,9 @@ public class EventHandler {
         }
     }
 
-    public void teleport(int gameState){
+    public void teleport(int col, int row,int gameState){
         gamePanel.gameState = gameState;
-        gamePanel.player.worldX = gamePanel.getTileSize()*37;
-        gamePanel.player.worldY = gamePanel.getTileSize()*10;
-
+        gamePanel.player.worldX = gamePanel.getTileSize()*37; //set to specific tile
+        gamePanel.player.worldY = gamePanel.getTileSize()*10; //set to specific tile
     }
 }
