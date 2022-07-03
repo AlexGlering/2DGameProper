@@ -25,6 +25,9 @@ public class Entity {
     public int actionLockCounter = 0;
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
+    public int type; //0 = player, 1 = npc, 2 = monster
 
     //Item
     public BufferedImage image, image2, image3;
@@ -56,12 +59,18 @@ public class Entity {
 
     public void update(){
         setAction();
+
         collisionOn = false;
         gamePanel.checker.checkTile(this);
         gamePanel.checker.checkItem(this, false);
-        gamePanel.checker.checkPlayer(this);
+        boolean contactPlayer = gamePanel.checker.checkPlayer(this);
         gamePanel.checker.checkEntity(this, gamePanel.npcs);
         gamePanel.checker.checkEntity(this, gamePanel.monsters);
+
+        if(this.type == 2 && contactPlayer && !gamePanel.player.invincible){
+                gamePanel.player.life -= 1;
+                gamePanel.player.invincible = true;
+        }
 
         if(!collisionOn){
             switch (direction) {

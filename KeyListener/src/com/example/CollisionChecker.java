@@ -8,6 +8,7 @@ public class CollisionChecker {
     public CollisionChecker(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
+
     public void checkTile(Entity entity){
         int entityLeftWorldX = entity.worldX + entity.collisionArea.x;
         int entityRightWorldX = entity.worldX + entity.collisionArea.x + entity.collisionArea.width;
@@ -75,7 +76,6 @@ public class CollisionChecker {
 
                 //simulating entity movement and check where it will be, after it moved
                 entityCollisionDirection(entity);
-
                 if (entity.collisionArea.intersects(gamePanel.items[i].collisionArea)) {
                     if(gamePanel.items[i].collision){
                         entity.collisionOn = true;
@@ -126,7 +126,10 @@ public class CollisionChecker {
         return  index;
     }
 
-    public void checkPlayer(Entity entity){
+    public boolean checkPlayer(Entity entity){
+
+        boolean contactPlayer = false;
+
         //get entity's collisionArea position
         entity.collisionArea.x = entity.worldX + entity.collisionArea.x;
         entity.collisionArea.y = entity.worldY + entity.collisionArea.y;
@@ -136,8 +139,10 @@ public class CollisionChecker {
 
         //simulating entity movement and check where it will be, after it moved
         entityCollisionDirection(entity);
+
         if (entity.collisionArea.intersects(gamePanel.player.collisionArea)) {
             entity.collisionOn = true;
+            contactPlayer = true;
         }
 
         //resetting positions
@@ -145,6 +150,8 @@ public class CollisionChecker {
         entity.collisionArea.x = entity.collisionAreaDefaultX;
         gamePanel.player.collisionArea.x = gamePanel.player.collisionAreaDefaultX;
         gamePanel.player.collisionArea.y = gamePanel.player.collisionAreaDefaultY;
+
+        return contactPlayer;
 
     }
 

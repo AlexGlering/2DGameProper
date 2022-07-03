@@ -18,11 +18,7 @@ public class Player extends Entity{
         screenX = gamePanel.getScreenWidth()/2 - (gamePanel.getTileSize()/2);
         screenY = gamePanel.getScreenHeight()/2 - (gamePanel.getTileSize()/2);
 
-        collisionArea = new Rectangle(
-                8,
-                16,
-                32,
-                32);
+        collisionArea = new Rectangle(8, 16, 32, 32);
         collisionAreaDefaultX = collisionArea.x;
         collisionAreaDefaultY = collisionArea.y;
 
@@ -52,6 +48,7 @@ public class Player extends Entity{
         right2 = setup("/Player/Walking sprites/boy_right_2");
     }
 
+    @Override
     public void update(){
         //only increase sprite counter and animate player if player is moving
         if (keyHandler.upPressed || keyHandler.downPressed ||
@@ -85,7 +82,7 @@ public class Player extends Entity{
 
             //check monster collision
             int monsterIndex = gamePanel.checker.checkEntity(this, gamePanel.monsters);
-
+            contactMonster(monsterIndex);
 
             //Check event
             gamePanel.eventHandler.checkEvent();
@@ -114,17 +111,30 @@ public class Player extends Entity{
             }
         }
 
+        if(invincible){
+            invincibleCounter++;
+            if(invincibleCounter>30){
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
+
     }
     public void pickUpItem(int index){
         if(index != 999) {}
     }
 
+    public void contactMonster(int index){
+        if(index != 999 && !invincible) {
+                life -= 1;
+                invincible = true;
+        }
+    }
+
     public void interactNPC(int index){
-        if(index != 999){
-            if(gamePanel.keyHandler.enterPressed){
+        if(index != 999 && gamePanel.keyHandler.enterPressed){
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npcs[index].speak();
-            }
         }
     }
 
@@ -165,6 +175,15 @@ public class Player extends Entity{
                 }
             }
         }
+
+        //player opacity is decreased slightly when invisible
+        if(invincible){
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        }
+
         g2.drawImage(image, screenX, screenY, null);
+
+        //reset alpha
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 }
