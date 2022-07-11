@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int playState = 1;
     public final int pauseState = 2;
     public  final int dialogueState = 3;
+    public final int characterState = 4;
     public final int titleState = 0;
 
     //Constructor
@@ -183,14 +184,15 @@ public class GamePanel extends JPanel implements Runnable{
         music.play();
         music.loop();
     }
+
     public void stopMusic(){
         music.stop();
     }
+
     public void playSFX(int index){
         sfx.setFile(index);
         sfx.play();
     }
-
 
     //Game loop
     @Override

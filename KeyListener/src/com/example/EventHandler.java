@@ -86,6 +86,7 @@ public class EventHandler {
         gamePanel.player.life -= 1;
         //eventRect[col][row].eventDone = true;
         canTouchEvent = false;
+        gamePanel.playSFX(5);
     }
 
     public void healingPool(int col, int row,int gameState){
@@ -94,6 +95,8 @@ public class EventHandler {
             gamePanel.gameState = gameState;
             gamePanel.ui.currentDialogue = "You feel refreshed. Life was restored.";
             gamePanel.player.life = gamePanel.player.maxLife;
+            gamePanel.player.attackCanceled = true;
+            gamePanel.playSFX(2);
         }
     }
 

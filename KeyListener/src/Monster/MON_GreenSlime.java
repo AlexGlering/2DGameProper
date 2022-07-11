@@ -14,7 +14,7 @@ public class MON_GreenSlime extends Entity {
         name = "Green Slime";
         type = 2;
         speed = 1;
-        maxLife = 4;
+        maxLife = 5;
         life = maxLife;
 
         collisionArea.x = 3;
@@ -64,5 +64,13 @@ public class MON_GreenSlime extends Entity {
 
             actionLockCounter = 0;
         }
+    }
+
+    @Override
+    public void damageReaction(){
+
+        actionLockCounter = 0;
+        //when receiving damage, the slime moves away from player position
+        direction = gamePanel.player.direction;
     }
 }

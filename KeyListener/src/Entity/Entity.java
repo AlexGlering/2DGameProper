@@ -14,7 +14,7 @@ public class Entity {
     public GamePanel gamePanel;
     public String[] dialogues = new String[20];
     public int worldX, worldY;
-    public int speed;
+
 
     //Collision
     public Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
@@ -33,6 +33,7 @@ public class Entity {
     public int spriteCounter = 0;
     public int actionLockCounter = 0;
     public int dyingCounter = 0;
+    int hpBarCounter = 0;
 
     //States
     public int spriteNum = 1;
@@ -40,24 +41,43 @@ public class Entity {
     public boolean invincible = false;
     public boolean attacking = false;
     public boolean collisionOn = false;
-    public int type; //0 = player, 1 = npc, 2 = monster
+
     public boolean isAlive = true;
     public boolean isDying = false;
+    boolean hpBarOn = false;
 
     //Item
     public BufferedImage image, image2, image3;
     public String name;
     public boolean collision = false;
 
-    //Character status
+    //Character attributes
     public int maxLife;
     public int life;
+    public int type; //0 = player, 1 = npc, 2 = monster
+    public int speed;
+    public int level;
+    public int attack;
+    public int strenght;
+    public int dexterity;
+    public int defence;
+    public int exp;
+    public int nextLevelExp;
+    public int coin;
+    public Entity currentWeapon;
+    public Entity currentShield;
+
+    //Item attributes
+    public int attackValue;
+    public int defenceValue;
 
     public Entity (GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
 
     public void setAction(){}
+
+    public void damageReaction(){}
 
     public void speak(){
         gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
@@ -161,7 +181,7 @@ public class Entity {
             }
 
             //Monster HP bar
-            if(type == 2){
+            if(type == 2 && hpBarOn){
 
                 double oneScale = (double)gamePanel.getTileSize()/maxLife;
                 double hpBarValue = oneScale*life;
@@ -170,11 +190,21 @@ public class Entity {
                 g2.fillRect(screenX-1, screenY-4, gamePanel.getTileSize()+2, 12);
                 g2.setColor(new Color(255, 0, 30));
                 g2.fillRect(screenX, screenY - 3 , (int) hpBarValue, 10);
+
+                hpBarCounter++;
+
+                //HP bar disappears after x amount of frames
+                if(hpBarCounter > 300){
+                    hpBarCounter = 0;
+                    hpBarOn = false;
+                }
             }
 
-
             if(invincible){
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+                hpBarOn = true;
+                hpBarCounter = 0;
+                changeAlpha(g2, 0.5f);
+
             }
 
             if(isDying){
@@ -182,8 +212,7 @@ public class Entity {
             }
 
             g2.drawImage(image, screenX, screenY, gamePanel.getTileSize(), gamePanel.getTileSize(), null);
-
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            changeAlpha(g2, 1f);
         }
     }
 

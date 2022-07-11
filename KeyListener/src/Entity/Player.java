@@ -1,5 +1,7 @@
 package Entity;
 
+import Item.ITEM_SHIELD_WOOD;
+import Item.ITEM_SWORD_BASIC;
 import com.example.GamePanel;
 import com.example.KeyHandler;
 import java.awt.*;
@@ -10,6 +12,7 @@ public class Player extends Entity{
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
         super(gamePanel);
@@ -38,9 +41,28 @@ public class Player extends Entity{
         direction = "down";
 
         //Player status
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strenght = 1; //more strength equals more attack power
+        dexterity = 1; //more dex equals less received damage
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new ITEM_SWORD_BASIC(gamePanel);
+        currentShield = new ITEM_SHIELD_WOOD(gamePanel);
+        attack = calculateAttack(); //total attack value is decided by strength and weapon
+        defence = calculateDefence(); //vice versa with dex and shield
     }
+
+    public int calculateAttack(){
+        return attack = strenght * currentWeapon.attackValue;
+    }
+
+    public int calculateDefence(){
+        return defence = dexterity * currentShield.defenceValue;
+    }
+
     public void getPlayerImage(){
         up1 = setup("/Player/Walking sprites/boy_up_1", gamePanel.getTileSize(), gamePanel.getTileSize());
         up2 = setup("/Player/Walking sprites/boy_up_2", gamePanel.getTileSize(), gamePanel.getTileSize());
@@ -116,6 +138,13 @@ public class Player extends Entity{
                 }
             }
 
+            if(keyHandler.enterPressed && !attackCanceled){
+                gamePanel.playSFX(7);
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gamePanel.keyHandler.enterPressed = false;
 
             //changing player image for every x number of frameAdjust
@@ -197,11 +226,9 @@ public class Player extends Entity{
 
         if (gamePanel.keyHandler.enterPressed) {
             if (index != 999) {
+                attackCanceled = true;
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npcs[index].speak();
-            } else {
-                gamePanel.playSFX(7);
-                attacking = true;
             }
         }
     }
@@ -220,6 +247,7 @@ public class Player extends Entity{
                 gamePanel.playSFX(5);
                 gamePanel.monsters[index].life -= 1;
                 gamePanel.monsters[index].invincible = true;
+                gamePanel.monsters[index].damageReaction();
 
                 if(gamePanel.monsters[index].life <= 0){
                   gamePanel.monsters[index].isDying = true;
