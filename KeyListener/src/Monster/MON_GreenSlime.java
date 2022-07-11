@@ -31,14 +31,14 @@ public class MON_GreenSlime extends Entity {
         String monster1 = "/Monster/greenslime_down_1";
         String monster2 = "/Monster/greenslime_down_2";
 
-        up1 = setup(monster1);
-        up2 = setup(monster2);
-        down1 = setup(monster1);
-        down2 = setup(monster2);
-        left1 = setup(monster1);
-        left2 = setup(monster2);
-        right1 = setup(monster1);
-        right2 = setup(monster2);
+        up1 = setup(monster1, gamePanel.getTileSize(), gamePanel.getTileSize());
+        up2 = setup(monster2, gamePanel.getTileSize(), gamePanel.getTileSize());
+        down1 = setup(monster1, gamePanel.getTileSize(), gamePanel.getTileSize());
+        down2 = setup(monster2, gamePanel.getTileSize(), gamePanel.getTileSize());
+        left1 = setup(monster1, gamePanel.getTileSize(), gamePanel.getTileSize());
+        left2 = setup(monster2, gamePanel.getTileSize(), gamePanel.getTileSize());
+        right1 = setup(monster1, gamePanel.getTileSize(), gamePanel.getTileSize());
+        right2 = setup(monster2, gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 
     @Override

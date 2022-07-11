@@ -14,6 +14,8 @@ public class Entity {
     public int worldX, worldY;
     public int speed;
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2,
+    attackRight1, attackRight2;
     public String direction = "down";
     public int spriteCounter = 0;
     public int spriteNum = 1;
@@ -26,6 +28,7 @@ public class Entity {
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
     public boolean invincible = false;
+    public boolean attacking = false;
     public int invincibleCounter = 0;
     public int type; //0 = player, 1 = npc, 2 = monster
 
@@ -142,14 +145,14 @@ public class Entity {
     }
 
     //loading and scaling player image
-    public BufferedImage setup(String imagePath){
+    public BufferedImage setup(String imagePath, int width, int height){
         UtilityTool utilityTool = new UtilityTool();
         BufferedImage image = null;
         try{
 
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream(
                     imagePath + ".png")));
-            image = utilityTool.scaleImage(image, gamePanel.getTileSize(), gamePanel.getTileSize());
+            image = utilityTool.scaleImage(image, width, height);
 
         } catch (IOException e){
             e.printStackTrace();

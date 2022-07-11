@@ -12,8 +12,8 @@ public class ITEM_HEART extends Entity {
     public ITEM_HEART(GamePanel gamePanel) {
         super(gamePanel);
         name = "Heart";
-        image = setup("/Object/heart_full");
-        image2 = setup("/Object/heart_half");
-        image3 = setup("/Object/heart_blank");
+        image = setup("/Object/heart_full", gamePanel.getTileSize(), gamePanel.getTileSize());
+        image2 = setup("/Object/heart_half", gamePanel.getTileSize(), gamePanel.getTileSize());
+        image3 = setup("/Object/heart_blank", gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 }

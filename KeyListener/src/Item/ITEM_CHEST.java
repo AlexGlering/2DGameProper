@@ -8,6 +8,6 @@ public class ITEM_CHEST extends Entity {
     public ITEM_CHEST(GamePanel gamePanel){
         super(gamePanel);
         name = "Chest";
-        down1 = setup("/Object/chest");
+        down1 = setup("/Object/chest", gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 }

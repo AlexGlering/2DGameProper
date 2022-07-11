@@ -31,14 +31,14 @@ public class NPC_OldMan extends Entity{
     }
 
     public void getImage(){
-        up1 = setup("/NPC/oldman_up_1");
-        up2 = setup("/NPC/oldman_up_2");
-        down1 = setup("/NPC/oldman_down_1");
-        down2 = setup("/NPC/oldman_down_2");
-        left1 = setup("/NPC/oldman_left_1");
-        left2 = setup("/NPC/oldman_left_2");
-        right1 = setup("/NPC/oldman_right_1");
-        right2 = setup("/NPC/oldman_right_2");
+        up1 = setup("/NPC/oldman_up_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        up2 = setup("/NPC/oldman_up_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        down1 = setup("/NPC/oldman_down_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        down2 = setup("/NPC/oldman_down_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        left1 = setup("/NPC/oldman_left_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        left2 = setup("/NPC/oldman_left_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        right1 = setup("/NPC/oldman_right_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        right2 = setup("/NPC/oldman_right_2", gamePanel.getTileSize(), gamePanel.getTileSize());
     }
 
     //setting npc behavior

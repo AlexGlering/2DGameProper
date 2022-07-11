@@ -8,7 +8,7 @@ public class ITEM_DOOR extends Entity {
     public ITEM_DOOR(GamePanel gamePanel){
         super(gamePanel);
         name = "Door";
-        down1 = setup("/Object/door");
+        down1 = setup("/Object/door", gamePanel.getTileSize(), gamePanel.getTileSize());
         collision = true;
 
         collisionArea.x = 0;

@@ -24,6 +24,7 @@ public class Player extends Entity{
 
         setDefaultValues();
         getPlayerImage();
+        getPlayerAttackImage();
     }
 
     public void setDefaultValues(){
@@ -38,21 +39,36 @@ public class Player extends Entity{
         life = maxLife;
     }
     public void getPlayerImage(){
-        up1 = setup("/Player/Walking sprites/boy_up_1");
-        up2 = setup("/Player/Walking sprites/boy_up_2");
-        down1 = setup("/Player/Walking sprites/boy_down_1");
-        down2 = setup("/Player/Walking sprites/boy_down_2");
-        left1 = setup("/Player/Walking sprites/boy_left_1");
-        left2 = setup("/Player/Walking sprites/boy_left_2");
-        right1 = setup("/Player/Walking sprites/boy_right_1");
-        right2 = setup("/Player/Walking sprites/boy_right_2");
+        up1 = setup("/Player/Walking sprites/boy_up_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        up2 = setup("/Player/Walking sprites/boy_up_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        down1 = setup("/Player/Walking sprites/boy_down_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        down2 = setup("/Player/Walking sprites/boy_down_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        left1 = setup("/Player/Walking sprites/boy_left_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        left2 = setup("/Player/Walking sprites/boy_left_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+        right1 = setup("/Player/Walking sprites/boy_right_1", gamePanel.getTileSize(), gamePanel.getTileSize());
+        right2 = setup("/Player/Walking sprites/boy_right_2", gamePanel.getTileSize(), gamePanel.getTileSize());
+    }
+
+    public void getPlayerAttackImage(){
+        attackUp1 = setup("/Player/Attacking sprites/boy_attack_up_1", gamePanel.getTileSize(), gamePanel.getTileSize()*2);
+        attackUp2 = setup("/Player/Attacking sprites/boy_attack_up_2", gamePanel.getTileSize(), gamePanel.getTileSize()*2);
+        attackDown1 = setup("/Player/Attacking sprites/boy_attack_down_1", gamePanel.getTileSize(), gamePanel.getTileSize()*2);
+        attackDown2 = setup("/Player/Attacking sprites/boy_attack_down_2", gamePanel.getTileSize(), gamePanel.getTileSize()*2);
+        attackLeft1 = setup("/Player/Attacking sprites/boy_attack_left_1", gamePanel.getTileSize()*2, gamePanel.getTileSize());
+        attackLeft2 = setup("/Player/Attacking sprites/boy_attack_left_2", gamePanel.getTileSize()*2, gamePanel.getTileSize());
+        attackRight1 = setup("/Player/Attacking sprites/boy_attack_right_1", gamePanel.getTileSize()*2, gamePanel.getTileSize());
+        attackRight2 = setup("/Player/Attacking sprites/boy_attack_right_2", gamePanel.getTileSize()*2, gamePanel.getTileSize());
     }
 
     @Override
     public void update(){
+
+        if(attacking){
+            attacking();
+        }
         //only increase sprite counter and animate player if player is moving
-        if (keyHandler.upPressed || keyHandler.downPressed ||
-                keyHandler.rightPressed || keyHandler.leftPressed){
+        else if (keyHandler.upPressed || keyHandler.downPressed ||
+                keyHandler.rightPressed || keyHandler.leftPressed || keyHandler.enterPressed){
 
             //handling key input to move player sprite
             if(keyHandler.upPressed){
@@ -86,10 +102,9 @@ public class Player extends Entity{
 
             //Check event
             gamePanel.eventHandler.checkEvent();
-            gamePanel.keyHandler.enterPressed = false;
 
             //If collision is false, player can't move
-            if(!collisionOn){
+            if(!collisionOn && !keyHandler.enterPressed){
                 switch (direction) {
                     case "up" -> worldY -= speed;
                     case "down" -> worldY += speed;
@@ -97,6 +112,8 @@ public class Player extends Entity{
                     case "right" -> worldX += speed;
                 }
             }
+
+            gamePanel.keyHandler.enterPressed = false;
 
             //changing player image for every x number of frameAdjust
             int frameAdjust = 12;
@@ -120,58 +137,128 @@ public class Player extends Entity{
         }
 
     }
+
+    public void attacking(){
+        spriteCounter++;
+
+        //show attack sprite 1 for x amount of frames
+        if(spriteCounter <= 5){
+            spriteNum = 1;
+        }
+        //show attack sprite 2 for x amount of frames
+        if(spriteCounter > 5 && spriteCounter <= 25){
+            spriteNum = 2;
+        }
+        //reset attack sprite
+        if(spriteCounter > 25){
+            spriteNum = 1;
+            spriteCounter = 0;
+            attacking = false;
+        }
+    }
+
     public void pickUpItem(int index){
         if(index != 999) {}
     }
 
-    public void contactMonster(int index){
-        if(index != 999 && !invincible) {
-                life -= 1;
-                invincible = true;
+    public void interactNPC(int index) {
+
+        if (gamePanel.keyHandler.enterPressed) {
+            if (index != 999) {
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.npcs[index].speak();
+            } else {
+                attacking = true;
+            }
         }
     }
 
-    public void interactNPC(int index){
-        if(index != 999 && gamePanel.keyHandler.enterPressed){
-                gamePanel.gameState = gamePanel.dialogueState;
-                gamePanel.npcs[index].speak();
+    public void contactMonster(int index){
+        if(index != 999 && !invincible) {
+            life -= 1;
+            invincible = true;
         }
     }
 
     public void draw(Graphics2D g2){
         //drawing player sprite
         BufferedImage image = null;
+        int tempScreenX = screenX;
+        int tempScreenY = screenY;
+
         switch (direction) {
             case "up" -> {
-                if (spriteNum == 1) {
-                    image = up1;
+                if(!attacking){
+                    if (spriteNum == 1) {
+                        image = up1;
+                    }
+                    if (spriteNum == 2) {
+                        image = up2;
+                    }
                 }
-                if (spriteNum == 2) {
-                    image = up2;
+                if(attacking){
+                    tempScreenY = screenY - gamePanel.getTileSize();
+                    if (spriteNum == 1) {
+                        image = attackUp1;
+                    }
+                    if (spriteNum == 2) {
+                        image = attackUp2;
+                    }
                 }
             }
             case "down" -> {
-                if (spriteNum == 1) {
-                    image = down1;
+                if(!attacking){
+                    if (spriteNum == 1) {
+                        image = down1;
+                    }
+                    if (spriteNum == 2) {
+                        image = down2;
+                    }
                 }
-                if (spriteNum == 2) {
-                    image = down2;
+                if(attacking){
+                    if (spriteNum == 1) {
+                        image = attackDown1;
+                    }
+                    if (spriteNum == 2) {
+                        image = attackDown2;
+                    }
                 }
             }
             case "left" -> {
-                if (spriteNum == 1) {
-                    image = left1;
+                if(!attacking){
+                    if (spriteNum == 1) {
+                        image = left1;
+                    }
+                    if (spriteNum == 2) {
+                        image = left2;
+                    }
                 }
-                if (spriteNum == 2) {
-                    image = left2;
+                if(attacking){
+                    tempScreenX = screenX - gamePanel.getTileSize();
+                    if (spriteNum == 1) {
+                        image = attackLeft1;
+                    }
+                    if (spriteNum == 2) {
+                        image = attackLeft2;
+                    }
                 }
             }
             case "right" -> {
-                if (spriteNum == 1) {
-                    image = right1;
+                if(!attacking){
+                    if (spriteNum == 1) {
+                        image = right1;
+                    }
+                    if (spriteNum == 2) {
+                        image = right2;
+                    }
                 }
-                if (spriteNum == 2) {
-                    image = right2;
+                if(attacking){
+                    if (spriteNum == 1) {
+                        image = attackRight1;
+                    }
+                    if (spriteNum == 2) {
+                        image = attackRight2;
+                    }
                 }
             }
         }
@@ -181,7 +268,7 @@ public class Player extends Entity{
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         }
 
-        g2.drawImage(image, screenX, screenY, null);
+        g2.drawImage(image, tempScreenX, tempScreenY, null);
 
         //reset alpha
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
