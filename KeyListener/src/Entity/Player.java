@@ -22,6 +22,9 @@ public class Player extends Entity{
         collisionAreaDefaultX = collisionArea.x;
         collisionAreaDefaultY = collisionArea.y;
 
+        attackArea.width = 36;
+        attackArea.height = 36;
+
         setDefaultValues();
         getPlayerImage();
         getPlayerAttackImage();
@@ -148,6 +151,35 @@ public class Player extends Entity{
         //show attack sprite 2 for x amount of frames
         if(spriteCounter > 5 && spriteCounter <= 25){
             spriteNum = 2;
+
+
+            //Save the current world(X and Y) collisionArea
+            int currentWorldX = worldX;
+            int currentWorldY = worldY;
+            int collisionAreaWidth = collisionArea.width;
+            int collisionAreaHeight = collisionArea.height;
+
+            //Adjust player's world(X and Y) for the attackArea
+            switch (direction) {
+                case "up" -> worldY -= attackArea.height;
+                case "down" -> worldY += attackArea.height;
+                case "left" -> worldX -= attackArea.width;
+                case "right" -> worldX += attackArea.width;
+            }
+
+            //attackArea becomes collisionArea
+            collisionArea.width = attackArea.width;
+            collisionArea.height = attackArea.height;
+
+            //check monster collision with the updated world(X and Y) and collisionArea
+            int monsterIndex = gamePanel.checker.checkEntity(this, gamePanel.monsters);
+            damageMonster(monsterIndex);
+
+            //After checking collision, restore original data
+            worldX = currentWorldX;
+            worldY = currentWorldY;
+            collisionArea.width = collisionAreaWidth;
+            collisionArea.height = collisionAreaHeight;
         }
         //reset attack sprite
         if(spriteCounter > 25){
@@ -177,6 +209,14 @@ public class Player extends Entity{
         if(index != 999 && !invincible) {
             life -= 1;
             invincible = true;
+        }
+    }
+
+    public void damageMonster(int index){
+        if(index != 999){
+            System.out.println("Hit");
+        } else {
+            System.out.println("Miss");
         }
     }
 

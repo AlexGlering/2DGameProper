@@ -31,6 +31,7 @@ public class Entity {
     public boolean attacking = false;
     public int invincibleCounter = 0;
     public int type; //0 = player, 1 = npc, 2 = monster
+    public Rectangle attackArea = new Rectangle(0, 0,0,0);
 
     //Item
     public BufferedImage image, image2, image3;
