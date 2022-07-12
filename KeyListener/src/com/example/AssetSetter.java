@@ -1,9 +1,11 @@
 package com.example;
 
 import Entity.NPC_OldMan;
+import Item.ITEM_KEY;
 import Monster.MON_GreenSlime;
 
 public class AssetSetter {
+
     GamePanel gamePanel;
 
     public AssetSetter(GamePanel gamePanel) {
@@ -11,7 +13,24 @@ public class AssetSetter {
     }
 
     public void setItem() {
-        //TODO implement some items
+
+        int i = 0;
+
+        gamePanel.items[i] = new ITEM_KEY(gamePanel);
+        gamePanel.items[i].worldX = gamePanel.getTileSize()*25;
+        gamePanel.items[i].worldY = gamePanel.getTileSize()*23;
+        i++;
+
+        gamePanel.items[i] = new ITEM_KEY(gamePanel);
+        gamePanel.items[i].worldX = gamePanel.getTileSize()*21;
+        gamePanel.items[i].worldY = gamePanel.getTileSize()*19;
+        i++;
+
+        gamePanel.items[i] = new ITEM_KEY(gamePanel);
+        gamePanel.items[i].worldX = gamePanel.getTileSize()*26;
+        gamePanel.items[i].worldY = gamePanel.getTileSize()*21;
+
+
     }
 
     public void setNPC() {

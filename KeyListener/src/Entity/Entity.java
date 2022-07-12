@@ -15,7 +15,6 @@ public class Entity {
     public String[] dialogues = new String[20];
     public int worldX, worldY;
 
-
     //Collision
     public Rectangle collisionArea = new Rectangle(0, 0, 48, 48);
     public int collisionAreaDefaultX;

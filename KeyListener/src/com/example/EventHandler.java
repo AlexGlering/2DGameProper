@@ -4,7 +4,6 @@ public class EventHandler {
 
     GamePanel gamePanel;
     EventRect[][] eventRect;
-
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
 

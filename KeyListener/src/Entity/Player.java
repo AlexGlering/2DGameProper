@@ -1,7 +1,7 @@
 package Entity;
 
-import Item.ITEM_BOOTS;
-import Item.ITEM_KEY;
+import Item.ITEM_AXE;
+import Item.ITEM_SHIELD_BLUE;
 import Item.ITEM_SHIELD_WOOD;
 import Item.ITEM_SWORD_BASIC;
 import com.example.GamePanel;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 public class Player extends Entity{
+
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
@@ -64,6 +65,8 @@ public class Player extends Entity{
     public void setItems(){
         inventory.add(currentWeapon);
         inventory.add(currentShield);
+        inventory.add(new ITEM_AXE(gamePanel));
+        inventory.add(new ITEM_SHIELD_BLUE(gamePanel));
     }
 
     public int calculateAttack(){
@@ -230,7 +233,22 @@ public class Player extends Entity{
     }
 
     public void pickUpItem(int index){
-        if(index != 999) {}
+        if(index != 999) {
+
+            String text = "";
+
+            if(inventory.size() != inventoryCapacity) {
+                inventory.add(gamePanel.items[index]);
+                gamePanel.playSFX(1);
+                text = "Got a " + gamePanel.items[index].name + "!";
+            }
+            else{
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.ui.currentDialogue = "Inventory full. You can't carry anymore";
+            }
+            gamePanel.ui.addMessage(text);
+            gamePanel.items[index] = null;
+        }
     }
 
     public void interactNPC(int index) {

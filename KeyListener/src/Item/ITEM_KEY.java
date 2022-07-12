@@ -9,6 +9,7 @@ public class ITEM_KEY extends Entity {
         super(gamePanel);
         name = "Key";
         down1 = setup("/Object/key", gamePanel.getTileSize(), gamePanel.getTileSize());
+        collision = true;
     }
 
 }

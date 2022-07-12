@@ -4,6 +4,7 @@ import com.example.GamePanel;
 import java.util.Random;
 
 public class NPC_OldMan extends Entity{
+
     public NPC_OldMan(GamePanel gamePanel){
         super(gamePanel);
 

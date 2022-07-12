@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
+    //Getters and Setters
     public int getTileSize() {return tileSize;}
     public int getScreenWidth() {return screenWidth;}
     public int getScreenHeight() {return screenHeight;}
@@ -31,7 +32,6 @@ public class GamePanel extends JPanel implements Runnable{
 
     public int getMaxWorldCol() {return maxWorldCol;}
     public int getMaxWorldRow() {return maxWorldRow;}
-
 
    //System settings
     TileManager tileManager = new TileManager(this);
