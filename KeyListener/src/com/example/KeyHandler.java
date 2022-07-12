@@ -169,6 +169,9 @@ public class KeyHandler implements KeyListener {
             gamePanel.ui.slotCol++;
             gamePanel.playSFX(8);
         }
+        if(key == KeyEvent.VK_ENTER){
+            gamePanel.player.selectItem();
+        }
     }
 
     public void pauseState(int key){

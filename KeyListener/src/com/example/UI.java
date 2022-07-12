@@ -371,6 +371,14 @@ public class UI {
 
         //Draw player's items
         for (int i = 0; i < gamePanel.player.inventory.size(); i++) {
+
+            //Equip cursor
+            if(gamePanel.player.inventory.get(i) == gamePanel.player.currentWeapon ||
+            gamePanel.player.inventory.get(i) == gamePanel.player.currentShield){
+                g2.setColor(Color.orange);
+                g2.fillRoundRect(slotX, slotY, 46, 46, 10, 10);
+            }
+
             g2.drawImage(gamePanel.player.inventory.get(i).down1, slotX, slotY, null);
             slotX += gamePanel.getTileSize();
 
