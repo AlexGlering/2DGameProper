@@ -5,6 +5,7 @@ import Item.ITEM_HEART;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class UI {
 
@@ -13,8 +14,8 @@ public class UI {
     Font arial_40, arial_60B;
     BufferedImage heart_full, heart_half, heart_blank;
     public boolean messageOn = false;
-    public String message = "";
-    int messageCounter = 0;
+    ArrayList<String> message = new ArrayList<>();
+    ArrayList<Integer> messageCounter = new ArrayList<>();
     public boolean gameFinished = false;
     public String currentDialogue;
     public int commandNum = 0;
@@ -32,9 +33,9 @@ public class UI {
         heart_blank = heart.image3;
     }
 
-    public void showMessage(String text){
-        this.message = text;
-        messageOn = true;
+    public void addMessage(String text){
+        message.add(text);
+        messageCounter.add(0);
     }
 
     public void draw(Graphics2D g2){
@@ -52,17 +53,21 @@ public class UI {
         //Play state
         if(gamePanel.gameState == gamePanel.playState){
             drawPlayerLife();
+            drawMessage();
         }
+
         //Pause state
         if(gamePanel.gameState == gamePanel.pauseState){
             drawPauseScreen();
             drawPlayerLife();
         }
+
         //Dialogue state
         if(gamePanel.gameState == gamePanel.dialogueState){
             drawDialogueScreen();
             drawPlayerLife();
         }
+
         //Character state
         if(gamePanel.gameState == gamePanel.characterState){
             drawCharacterScreen();
@@ -97,6 +102,32 @@ public class UI {
             x+= gamePanel.getTileSize();
         }
 
+    }
+
+    public void drawMessage(){
+        int messageX = gamePanel.getTileSize();
+        int messageY = gamePanel.getTileSize()* 4;
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+
+
+        for (int i = 0; i < message.size(); i++) {
+            if(message.get(i) != null){
+                g2.setColor(Color.BLACK);
+                g2.drawString(message.get(i), messageX+2, messageY +2);
+
+                g2.setColor(Color.WHITE);
+                g2.drawString(message.get(i), messageX, messageY);
+
+                int counter = messageCounter.get(i) +1; //messageCounter++
+                messageCounter.set(i, counter); //set the counter to the array
+                messageY += 50;
+
+                if(messageCounter.get(i) > 180){
+                    message.remove(i);
+                    messageCounter.remove(i);
+                }
+            }
+        }
     }
 
     public void drawTitleScreen(){

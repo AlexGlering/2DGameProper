@@ -236,7 +236,15 @@ public class Player extends Entity{
     public void contactMonster(int index){
         if(index != 999 && !invincible) {
             gamePanel.playSFX(6);
-            life -= 1;
+
+            int damage = gamePanel.monsters[index].attack - defence;
+            if(damage < 0){
+                damage = 0;
+            }
+
+            life -= damage;
+            gamePanel.ui.addMessage(damage + " HP damage received");
+
             invincible = true;
         }
     }
@@ -245,12 +253,19 @@ public class Player extends Entity{
         if(index != 999){
             if(!gamePanel.monsters[index].invincible){
                 gamePanel.playSFX(5);
-                gamePanel.monsters[index].life -= 1;
+
+                int damage = attack - gamePanel.monsters[index].defence;
+                if(damage < 0){
+                    damage = 0;
+                }
+
+                gamePanel.monsters[index].life -= damage;
                 gamePanel.monsters[index].invincible = true;
                 gamePanel.monsters[index].damageReaction();
 
                 if(gamePanel.monsters[index].life <= 0){
                   gamePanel.monsters[index].isDying = true;
+                  gamePanel.ui.addMessage(gamePanel.monsters[index].name + " slain");
                 }
             }
         }
