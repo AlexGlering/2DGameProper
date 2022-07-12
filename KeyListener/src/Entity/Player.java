@@ -258,16 +258,36 @@ public class Player extends Entity{
                 if(damage < 0){
                     damage = 0;
                 }
-
+                //damaging monster
                 gamePanel.monsters[index].life -= damage;
                 gamePanel.monsters[index].invincible = true;
                 gamePanel.monsters[index].damageReaction();
 
+                //killing monster
                 if(gamePanel.monsters[index].life <= 0){
                   gamePanel.monsters[index].isDying = true;
                   gamePanel.ui.addMessage(gamePanel.monsters[index].name + " slain");
+                  gamePanel.ui.addMessage(gamePanel.monsters[index].exp + " EXP gained");
+                  exp += gamePanel.monsters[index].exp;
+                  checkLevelUp();
                 }
             }
+        }
+    }
+
+    public void checkLevelUp(){
+        if(exp >= nextLevelExp){
+            level++;
+            nextLevelExp = nextLevelExp*3;
+            maxLife += 2;
+            strenght++;
+            dexterity++;
+            attack = calculateAttack();
+            defence = calculateDefence();
+            gamePanel.playSFX(8);
+            gamePanel.gameState = gamePanel.dialogueState;
+            gamePanel.ui.currentDialogue = "LEVEL " + level + " REACHED!/n" +
+                    "A surge of power courses through you!";
         }
     }
 

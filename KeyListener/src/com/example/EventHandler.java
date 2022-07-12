@@ -93,10 +93,13 @@ public class EventHandler {
 
         if(gamePanel.keyHandler.enterPressed){
             gamePanel.gameState = gameState;
-            gamePanel.ui.currentDialogue = "You feel refreshed. Life was restored.";
+            gamePanel.ui.currentDialogue = "Life was restored. You feel refreshed.";
             gamePanel.player.life = gamePanel.player.maxLife;
             gamePanel.player.attackCanceled = true;
             gamePanel.playSFX(2);
+
+            //respawn monsters
+            gamePanel.assetSetter.setMonster();
         }
     }
 
