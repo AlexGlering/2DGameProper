@@ -70,6 +70,7 @@ public class Entity {
     //Item attributes
     public int attackValue;
     public int defenceValue;
+    public String itemDescription = "";
 
     public Entity (GamePanel gamePanel){
         this.gamePanel = gamePanel;

@@ -96,7 +96,7 @@ public class KeyHandler implements KeyListener {
                     case 0 -> {
                         System.out.println("Do some fighter specific stuff");
                         gamePanel.gameState = gamePanel.playState;
-                        gamePanel.playMusic(0);
+                        //gamePanel.playMusic(0);
                     }
                     case 1 -> {
                         System.out.println("Do some rogue specific stuff");
@@ -151,6 +151,22 @@ public class KeyHandler implements KeyListener {
     public void characterState(int key){
         if(key == KeyEvent.VK_SPACE) {
             gamePanel.gameState = gamePanel.playState;
+        }
+        if(key == KeyEvent.VK_W && gamePanel.ui.slotRow != 0){
+                gamePanel.ui.slotRow--;
+                gamePanel.playSFX(8);
+        }
+        if(key == KeyEvent.VK_A && gamePanel.ui.slotCol != 0){
+            gamePanel.ui.slotCol--;
+            gamePanel.playSFX(8);
+        }
+        if(key == KeyEvent.VK_S && gamePanel.ui.slotRow != 3){
+            gamePanel.ui.slotRow++;
+            gamePanel.playSFX(8);
+        }
+        if(key == KeyEvent.VK_D && gamePanel.ui.slotCol != 4){
+            gamePanel.ui.slotCol++;
+            gamePanel.playSFX(8);
         }
     }
 

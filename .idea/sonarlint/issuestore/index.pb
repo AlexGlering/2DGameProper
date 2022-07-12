@@ -19,7 +19,3 @@ Z
 ,KeyListener/src/com/example/UtilityTool.java,a\d\adac7b7126d6431e052ebe8ad1ddb0ee9950a53d
 a
 1KeyListener/src/com/example/CollisionChecker.java,1\2\12a849eaec8d469a476c804ae084473ba6e1d885
-Z
-*KeyListener/src/com/example/GamePanel.java,9\c\9cb29e3af0ea38d73259b8d1aa0bbae5708148ee
-[
-+KeyListener/src/com/example/KeyHandler.java,8\9\890d4f3b6485993790140786551e38ebe090a1ad
